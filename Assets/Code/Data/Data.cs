@@ -31,7 +31,6 @@ public class GameModel
     public int buffCountMin;
     public int buffCountMax;
     public bool allowDuplicateBuffs;
-
 }
 
 [Serializable]
