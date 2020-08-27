@@ -4,15 +4,17 @@ namespace Code
 {
     public class GameController
     {
-        private Data _settings;
+        private Data _defaultSettings;
         private PlayerController[] _players;
         private MainUI _mainUi;
         
         public void Initialize(
+            Data settings,
             PlayerController[] players, 
             MainUI mainUi
             )
         {
+            _defaultSettings = settings;
             _players = players;
             _mainUi = mainUi;
 
@@ -41,11 +43,11 @@ namespace Code
         
         private void SetDefaultParams()
         {
-            _settings = GameSettingsLoader.GetSettings();
+            _defaultSettings = GameSettingsLoader.GetSettings();
             
             foreach (var player in _players)
             {
-                player.SetPlayerStats(_settings.stats);
+                player.SetPlayerStats(_defaultSettings.stats);
             }
         }
 
@@ -55,9 +57,9 @@ namespace Code
             {
                 var buffCount = 0;
                 
-                foreach (var buff in _settings.buffs)
+                foreach (var buff in _defaultSettings.buffs)
                 {
-                    if (buffCount < _settings.settings.buffCountMax && Random.Range(0, 2) == 0)
+                    if (buffCount < _defaultSettings.settings.buffCountMax && Random.Range(0, 2) == 0)
                     {
                         player.AddBuffs(buff);
                         buffCount++;

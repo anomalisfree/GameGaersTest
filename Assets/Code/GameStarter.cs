@@ -11,10 +11,12 @@ namespace Code
         
         private void Awake()
         {
-            cameraController.Initialize();
+            var settings = GameSettingsLoader.GetSettings();
+            
+            cameraController.Initialize(settings.cameraSettings);
             
             var gameController = new GameController();
-            gameController.Initialize(players, mainUi);
+            gameController.Initialize(settings, players, mainUi);
         }
     }
 }

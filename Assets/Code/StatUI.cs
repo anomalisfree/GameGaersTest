@@ -38,12 +38,6 @@ namespace Code
          image.sprite = Resources.Load<Sprite>($"Icons/{buff.icon}");
       }
 
-      public void AddStatValue(float value)
-      {
-         _stat.value += value;
-         title.text = _stat.value.ToString(CultureInfo.InvariantCulture);
-      }
-
       public void UpdateStatValue(float value)
       {
          title.text = value.ToString(CultureInfo.InvariantCulture);

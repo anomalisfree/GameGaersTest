@@ -11,6 +11,11 @@ namespace Code
 
         [SerializeField] private PlayerPanelHierarchy playerPanelHierarchy;
 
+        private float _life;
+        private float _armor;
+        private float _damage;
+        private float _lifeSteal;
+
         private readonly List<StatUI> _playerStats = new List<StatUI>();
         private readonly List<StatUI> _playerBuffs = new List<StatUI>();
         private static readonly int AttackAnimationTrigger = Animator.StringToHash("Attack");
@@ -18,6 +23,56 @@ namespace Code
         private void Start()
         {
             playerPanelHierarchy.onAttack += Attack;
+        }
+
+        private float GetParam(StatsId id)
+        {
+            switch (id)
+            {
+                case StatsId.LIFE_ID:
+                    return _life;
+                case StatsId.ARMOR_ID:
+                    return _armor;
+                case StatsId.DAMAGE_ID:
+                    return _damage;
+                case StatsId.LIFE_STEAL_ID:
+                    return _lifeSteal;
+                default:
+                    Debug.LogError("There is no such parameter.");
+                    return 0;
+            }
+        }
+
+        private void SetParam(StatsId id, float value)
+        {
+            switch (id)
+            {
+                case StatsId.LIFE_ID:
+                    _life = value;
+                    break;
+                case StatsId.ARMOR_ID:
+                    _armor = value;
+                    break;
+                case StatsId.DAMAGE_ID:
+                    _damage = value;
+                    break;
+                case StatsId.LIFE_STEAL_ID:
+                    _lifeSteal = value;
+                    break;
+                default:
+                    Debug.LogError("There is no such parameter.");
+                    break;
+            }
+
+            UpdateStatUI(id, value);
+        }
+
+        private void UpdateStatUI(StatsId id, float value)
+        {
+            foreach (var playerStat in _playerStats.Where(playerStat => playerStat.GetStat().id == (int) id))
+            {
+                playerStat.UpdateStatValue(value);
+            }
         }
 
         public void SetPlayerStats(IEnumerable<Stat> stats)
@@ -29,6 +84,9 @@ namespace Code
                 var statUI = Instantiate(playerPanelHierarchy.statPrefab, playerPanelHierarchy.statsPanel)
                     .GetComponent<StatUI>();
                 statUI.Initialize(stat);
+
+                SetParam((StatsId) stat.id, stat.value);
+                
                 _playerStats.Add(statUI);
             }
         }
@@ -40,15 +98,9 @@ namespace Code
             buffsUI.Initialize(buff);
             _playerBuffs.Add(buffsUI);
 
-            foreach (var playerStat in _playerStats)
+            foreach (var stat in buff.stats)
             {
-                foreach (var stat in buff.stats)
-                {
-                    if (stat.statId == playerStat.GetStat().id)
-                    {
-                        playerStat.AddStatValue(stat.value);
-                    }
-                }
+                SetParam((StatsId)stat.statId, GetParam((StatsId)stat.statId) + stat.value);
             }
         }
 
@@ -72,22 +124,13 @@ namespace Code
         private void Attack()
         {
             playerPanelHierarchy.character.SetTrigger(AttackAnimationTrigger);
-
-            foreach (var stat in _playerStats.Select(playerStat => playerStat.GetStat())
-                .Where(stat => stat.id == (int) StatsId.DAMAGE_ID))
-            {
-                onAttack?.Invoke(stat.value);
-            }
+            onAttack?.Invoke(_damage);
         }
 
         public void GetHit(float damage)
         {
-            foreach (var playerStat in _playerStats.Where(
-                playerStat => playerStat.GetStat().id == (int) StatsId.LIFE_ID))
-            {
-                playerStat.GetStat().value -= damage;
-                playerStat.UpdateStatValue(playerStat.GetStat().value);
-            }
+            _life -= damage;
+            SetParam(StatsId.LIFE_ID, _life);
         }
     }
 }

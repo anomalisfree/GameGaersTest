@@ -13,13 +13,11 @@ namespace Code
         private Camera _camera;
         private float _currentFov;
 
-        public void Initialize()
+        public void Initialize(CameraModel cameraSettings)
         {
-            var cameraModel = GameSettingsLoader.GetSettings().cameraSettings;
-            
-            if (cameraModel == null) return;
+            if (cameraSettings == null) return;
 
-            _cameraModel = cameraModel;
+            _cameraModel = cameraSettings;
 
             _radiusPivot = transform.GetChild(0);
             _radiusPivot.localPosition = Vector3.right * _cameraModel.roundRadius;

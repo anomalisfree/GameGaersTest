@@ -1353,6 +1353,9 @@ MonoBehaviour:
   players:
   - {fileID: 1903470670}
   - {fileID: 455266276}
+  mainUi:
+    playWithoutBuffsButton: {fileID: 2136703702}
+    playWithBuffsButton: {fileID: 1977722871}
 --- !u!4 &1891769665
 Transform:
   m_ObjectHideFlags: 0
@@ -1386,6 +1389,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPanelHierarchy: {fileID: 780497814}
+--- !u!114 &1977722871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114000011830530410, guid: 486e302ca293de54a8e5ca500d5d717d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2109196113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2109196113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1494,3 +1509,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 486e302ca293de54a8e5ca500d5d717d, type: 3}
+--- !u!114 &2136703702 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114000011830530410, guid: 486e302ca293de54a8e5ca500d5d717d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568522398}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
