@@ -5,16 +5,16 @@ namespace Code
     public class GameStarter : MonoBehaviour
     {
         [SerializeField] private CameraController cameraController;
-        [SerializeField] private PlayerController[] players;    
+        [SerializeField] private PlayerController[] players;
+        [SerializeField] private MainUI mainUi;
+
         
         private void Awake()
         {
-            var settings = new GameSettingsLoader().Settings;
-            
-            cameraController.Initialize(settings.cameraSettings);
+            cameraController.Initialize();
             
             var gameController = new GameController();
-            gameController.Initialize(settings, players);
+            gameController.Initialize(players, mainUi);
         }
     }
 }

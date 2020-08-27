@@ -2,17 +2,14 @@
 
 namespace Code
 {
-   public class GameSettingsLoader
+   internal static class GameSettingsLoader
    {
       private const string JsonFileName = "data";
-      
-      public Data Settings => _settings;
-      private Data _settings;
 
-      public GameSettingsLoader()
+      public static Data GetSettings()
       {
          var jsonString = Resources.Load<TextAsset>(JsonFileName);
-         _settings = JsonUtility.FromJson<Data>(jsonString.text);
+         return JsonUtility.FromJson<Data>(jsonString.text);
       }
    }
 }

@@ -7,6 +7,13 @@ public class Data
     public GameModel settings;
     public Stat[] stats;
     public Buff[] buffs;
+    
+    public Data(GameModel settings, Stat[] stats, Buff[] buffs)
+    {
+        this.settings =  settings;
+        this.stats = stats;
+        this.buffs = buffs;
+    }
 }
 
 [Serializable]

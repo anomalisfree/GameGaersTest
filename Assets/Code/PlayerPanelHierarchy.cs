@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Code
@@ -9,5 +10,11 @@ namespace Code
         public Transform statsPanel;
         public Animator character;
         public GameObject statPrefab;
+        public Action onAttack;
+
+        private void Start()
+        {
+            attackButton.onClick.AddListener(() => onAttack?.Invoke());
+        }
     }
 }

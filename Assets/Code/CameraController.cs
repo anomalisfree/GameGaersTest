@@ -13,8 +13,10 @@ namespace Code
         private Camera _camera;
         private float _currentFov;
 
-        public void Initialize(CameraModel cameraModel)
+        public void Initialize()
         {
+            var cameraModel = GameSettingsLoader.GetSettings().cameraSettings;
+            
             if (cameraModel == null) return;
 
             _cameraModel = cameraModel;
