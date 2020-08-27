@@ -8,5 +8,6 @@ namespace Code
         public Button attackButton;
         public Transform statsPanel;
         public Animator character;
+        public GameObject statPrefab;
     }
 }
