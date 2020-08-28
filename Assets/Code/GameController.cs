@@ -70,13 +70,18 @@ namespace Code
 
         private void PlayerAttack(float damage, int playerNum)
         {
+            var damageSum = 0f;
+            
             for (var i = 0; i < _players.Length; i++)
             {
                 if (i -  playerNum != 0)
                 {
-                    _players[i].GetHit(damage);
+                    _players[i].GetHit(damage, out var finishDamage);
+                    damageSum += finishDamage;
                 }
             }
+
+            _players[playerNum].DamageDoneToEnemy(damageSum);
         }
         
     }

@@ -16,9 +16,13 @@ namespace Code
         private float _damage;
         private float _lifeSteal;
 
+        private float _maxLife;
+
         private readonly List<StatUI> _playerStats = new List<StatUI>();
         private readonly List<StatUI> _playerBuffs = new List<StatUI>();
+        
         private static readonly int AttackAnimationTrigger = Animator.StringToHash("Attack");
+        private static readonly int Health = Animator.StringToHash("Health");
 
         private void Start()
         {
@@ -49,6 +53,7 @@ namespace Code
             {
                 case StatsId.LIFE_ID:
                     _life = value;
+                    playerPanelHierarchy.character.SetInteger(Health, (int) _life);
                     break;
                 case StatsId.ARMOR_ID:
                     _armor = value;
@@ -86,9 +91,10 @@ namespace Code
                 statUI.Initialize(stat);
 
                 SetParam((StatsId) stat.id, stat.value);
-                
                 _playerStats.Add(statUI);
             }
+            
+            _maxLife = _life;
         }
 
         public void AddBuffs(Buff buff)
@@ -100,8 +106,10 @@ namespace Code
 
             foreach (var stat in buff.stats)
             {
-                SetParam((StatsId)stat.statId, GetParam((StatsId)stat.statId) + stat.value);
+                SetParam((StatsId) stat.statId, GetParam((StatsId) stat.statId) + stat.value);
             }
+            
+            _maxLife = _life;
         }
 
         private void ClearStatsUI()
@@ -123,14 +131,42 @@ namespace Code
 
         private void Attack()
         {
-            playerPanelHierarchy.character.SetTrigger(AttackAnimationTrigger);
-            onAttack?.Invoke(_damage);
+            if (_life > 0)
+            {
+                playerPanelHierarchy.character.SetTrigger(AttackAnimationTrigger);
+                onAttack?.Invoke(_damage);
+            }
         }
 
-        public void GetHit(float damage)
+        public void GetHit(float damage, out float finishDamage)
         {
-            _life -= damage;
+            if (_life > 0)
+            {
+                finishDamage = damage - damage * _armor * 0.01f;
+                _life -= finishDamage;
+            }
+            else
+            {
+                finishDamage = 0;
+            }
+
+            if (_life < 0)
+                _life = 0;
+            
             SetParam(StatsId.LIFE_ID, _life);
+        }
+
+        public void DamageDoneToEnemy(float damage)
+        {
+            if (_lifeSteal > 0)
+            {
+                _life += damage * _lifeSteal * 0.01f;
+
+                if (_life > _maxLife)
+                    _life = _maxLife;
+                
+                SetParam(StatsId.LIFE_ID, _life);
+            }
         }
     }
 }
