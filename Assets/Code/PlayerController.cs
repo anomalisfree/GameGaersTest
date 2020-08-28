@@ -58,12 +58,7 @@ namespace Code
             {
                 case StatsId.LIFE_ID:
                     _life = value;
-                    playerPanelHierarchy.character.SetInteger(Health, (int) _life);
-                    
-                    if (_healthBar != null)
-                        _healthBar.SetAmount(_life / _maxLife);
-                    
-                    break;
+                   break;
                 case StatsId.ARMOR_ID:
                     _armor = value;
                     break;
@@ -98,12 +93,13 @@ namespace Code
                 var statUI = Instantiate(playerPanelHierarchy.statPrefab, playerPanelHierarchy.statsPanel)
                     .GetComponent<StatUI>();
                 statUI.Initialize(stat);
-
+                
                 SetParam((StatsId) stat.id, stat.value);
                 _playerStats.Add(statUI);
             }
 
             _maxLife = _life;
+            SetHealthVisual(true);
         }
 
         public void AddBuffs(Buff buff)
@@ -119,6 +115,7 @@ namespace Code
             }
 
             _maxLife = _life;
+            SetHealthVisual(true);
         }
 
         private void ClearStatsUI()
@@ -163,6 +160,7 @@ namespace Code
                 _life = 0;
 
             SetParam(StatsId.LIFE_ID, _life);
+            SetHealthVisual();
         }
 
         public void DamageDoneToEnemy(float damage)
@@ -175,12 +173,22 @@ namespace Code
                     _life = _maxLife;
 
                 SetParam(StatsId.LIFE_ID, _life);
+                SetHealthVisual();
             }
         }
 
         private void Update()
         {
             _healthBar.SetPose(headPivot.position + Vector3.up);
+        }
+
+        private void SetHealthVisual(bool isStarting = false)
+        {
+            playerPanelHierarchy.character.SetInteger(Health, (int) _life);
+                    
+            if (_healthBar != null)
+                _healthBar.SetAmount(_life, _maxLife, isStarting);
+
         }
     }
 }

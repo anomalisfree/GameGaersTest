@@ -24,7 +24,9 @@ namespace Code
             _currentRadius = _cameraModel.roundRadius;
 
             _camera = Camera.main;
-            _cameraPivot = _camera.transform;
+            
+            if (_camera != null) _cameraPivot = _camera.transform;
+            
             _cameraPivot.localPosition = Vector3.up * _cameraModel.height;
             _cameraPivot.LookAt(Vector3.up * _cameraModel.lookAtHeight);
             _currentFov = (_cameraModel.fovMin + _cameraModel.fovMax) / 2;
