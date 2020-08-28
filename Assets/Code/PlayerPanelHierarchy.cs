@@ -11,6 +11,8 @@ namespace Code
         public Animator character;
         public GameObject statPrefab;
         public Action onAttack;
+        public GameObject healthBarPrefab;
+        public Transform healthBarRoot;
 
         private void Start()
         {

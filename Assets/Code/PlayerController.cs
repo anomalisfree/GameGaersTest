@@ -10,6 +10,7 @@ namespace Code
         public Action<float> onAttack;
 
         [SerializeField] private PlayerPanelHierarchy playerPanelHierarchy;
+        [SerializeField] private Transform headPivot;
 
         private float _life;
         private float _armor;
@@ -20,13 +21,17 @@ namespace Code
 
         private readonly List<StatUI> _playerStats = new List<StatUI>();
         private readonly List<StatUI> _playerBuffs = new List<StatUI>();
-        
+
         private static readonly int AttackAnimationTrigger = Animator.StringToHash("Attack");
         private static readonly int Health = Animator.StringToHash("Health");
 
+        private HealthBar _healthBar;
+
         private void Start()
         {
-            playerPanelHierarchy.onAttack += Attack;
+            playerPanelHierarchy.attackButton.onClick.AddListener(Attack);
+            _healthBar = Instantiate(playerPanelHierarchy.healthBarPrefab, playerPanelHierarchy.healthBarRoot)
+                .GetComponent<HealthBar>();
         }
 
         private float GetParam(StatsId id)
@@ -54,6 +59,10 @@ namespace Code
                 case StatsId.LIFE_ID:
                     _life = value;
                     playerPanelHierarchy.character.SetInteger(Health, (int) _life);
+                    
+                    if (_healthBar != null)
+                        _healthBar.SetAmount(_life / _maxLife);
+                    
                     break;
                 case StatsId.ARMOR_ID:
                     _armor = value;
@@ -93,7 +102,7 @@ namespace Code
                 SetParam((StatsId) stat.id, stat.value);
                 _playerStats.Add(statUI);
             }
-            
+
             _maxLife = _life;
         }
 
@@ -108,7 +117,7 @@ namespace Code
             {
                 SetParam((StatsId) stat.statId, GetParam((StatsId) stat.statId) + stat.value);
             }
-            
+
             _maxLife = _life;
         }
 
@@ -152,7 +161,7 @@ namespace Code
 
             if (_life < 0)
                 _life = 0;
-            
+
             SetParam(StatsId.LIFE_ID, _life);
         }
 
@@ -164,9 +173,14 @@ namespace Code
 
                 if (_life > _maxLife)
                     _life = _maxLife;
-                
+
                 SetParam(StatsId.LIFE_ID, _life);
             }
+        }
+
+        private void Update()
+        {
+            _healthBar.SetPose(headPivot.position + Vector3.up);
         }
     }
 }

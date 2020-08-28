@@ -208,6 +208,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220562}
   m_CullTransparentMesh: 0
+--- !u!4 &132863176 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000014252283786, guid: 27d5d38a58fb54240ae92d1d0ad28430,
+    type: 3}
+  m_PrefabInstance: {fileID: 1355401634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &209692073
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPanelHierarchy: {fileID: 1653815822}
+  headPivot: {fileID: 132863176}
 --- !u!1001 &502479215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -402,6 +409,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1000010754808384, guid: 77a89dfebc586d241992ad32394d6699,
         type: 3}
+    - target: {fileID: 114000012938007214, guid: 44aea1bdccdaf4544a845460aacc9734,
+        type: 3}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 1000011507046482, guid: 62c4624c182bca94e96863e926c37a5b,
+        type: 3}
+    - target: {fileID: 114000012938007214, guid: 44aea1bdccdaf4544a845460aacc9734,
+        type: 3}
+      propertyPath: healthBarRoot
+      value: 
+      objectReference: {fileID: 209692074}
     - target: {fileID: 224000010324349074, guid: 44aea1bdccdaf4544a845460aacc9734,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -972,6 +990,12 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1355401634}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1360129757 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000014252283786, guid: 27d5d38a58fb54240ae92d1d0ad28430,
+    type: 3}
+  m_PrefabInstance: {fileID: 1612305481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1568522398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1133,6 +1157,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1000010754808384, guid: 77a89dfebc586d241992ad32394d6699,
         type: 3}
+    - target: {fileID: 114000012938007214, guid: 44aea1bdccdaf4544a845460aacc9734,
+        type: 3}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 1000011507046482, guid: 62c4624c182bca94e96863e926c37a5b,
+        type: 3}
+    - target: {fileID: 114000012938007214, guid: 44aea1bdccdaf4544a845460aacc9734,
+        type: 3}
+      propertyPath: healthBarRoot
+      value: 
+      objectReference: {fileID: 209692074}
     - target: {fileID: 224000010324349074, guid: 44aea1bdccdaf4544a845460aacc9734,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -1389,6 +1424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPanelHierarchy: {fileID: 780497814}
+  headPivot: {fileID: 1360129757}
 --- !u!114 &1977722871 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114000011830530410, guid: 486e302ca293de54a8e5ca500d5d717d,
