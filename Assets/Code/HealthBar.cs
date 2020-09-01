@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Code
 {
     public class HealthBar : MonoBehaviour
     {
-        [SerializeField] private Image image;
-        [SerializeField] private Text text;
+        [SerializeField] private Image image = null;
+        [SerializeField] private Text text = null;
 
         private float _currentLife;
 

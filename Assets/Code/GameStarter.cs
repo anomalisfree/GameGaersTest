@@ -4,10 +4,9 @@ namespace Code
 {
     public class GameStarter : MonoBehaviour
     {
-        [SerializeField] private CameraController cameraController;
-        [SerializeField] private PlayerController[] players;
-        [SerializeField] private MainUI mainUi;
-
+        [SerializeField] private CameraController cameraController = null;
+        [SerializeField] private PlayerController[] players = null;
+        [SerializeField] private MainUI mainUi = null;
         
         private void Awake()
         {

@@ -79,7 +79,7 @@ namespace Code
                         var currentBuff = _defaultSettings.buffs[Random.Range(0, _defaultSettings.buffs.Length)];
                         var hasDuplicate = false;
 
-                        foreach (var selectedBuff in selectedBuffs.Where(selectedBuff => selectedBuff == currentBuff))
+                        foreach (var _ in selectedBuffs.Where(selectedBuff => selectedBuff == currentBuff))
                         {
                             hasDuplicate = true;
                         }

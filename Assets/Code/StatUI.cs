@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 namespace Code
 {
-   public class StatUI : MonoBehaviour
+   public class StatUi : MonoBehaviour
    {
-      [SerializeField] private Text title;
-      [SerializeField] private Image image;
+      [SerializeField] private Text title = null;
+      [SerializeField] private Image image = null;
 
       private Stat _stat = new Stat();
       private Buff _buff = new Buff();

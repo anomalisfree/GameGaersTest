@@ -1,4 +1,4 @@
-internal enum StatsId
+public enum StatsId
 {
     LIFE_ID = 0,
     ARMOR_ID = 1,
