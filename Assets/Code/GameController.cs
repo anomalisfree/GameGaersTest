@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Code
 {
@@ -55,8 +57,6 @@ namespace Code
         {
             foreach (var player in _players)
             {
-                var buffCount = 0;
-
                 if (_defaultSettings.settings.allowDuplicateBuffs)
                 {
                     for (var i = 0;
@@ -69,12 +69,29 @@ namespace Code
                 }
                 else
                 {
-                    foreach (var buff in _defaultSettings.buffs)
+                    var selectedBuffs = new List<Buff>();
+
+                    for (var i = 0;
+                        i < Random.Range(_defaultSettings.settings.buffCountMin,
+                            _defaultSettings.settings.buffCountMax + 1);
+                        i++)
                     {
-                        if (buffCount < _defaultSettings.settings.buffCountMax && Random.Range(0, 2) == 0)
+                        var currentBuff = _defaultSettings.buffs[Random.Range(0, _defaultSettings.buffs.Length)];
+                        var hasDuplicate = false;
+
+                        foreach (var selectedBuff in selectedBuffs.Where(selectedBuff => selectedBuff == currentBuff))
                         {
-                            player.AddBuffs(buff);
-                            buffCount++;
+                            hasDuplicate = true;
+                        }
+
+                        if (hasDuplicate)
+                        {
+                            i--;
+                        }
+                        else
+                        {
+                            player.AddBuffs(currentBuff);
+                            selectedBuffs.Add(currentBuff);
                         }
                     }
                 }
