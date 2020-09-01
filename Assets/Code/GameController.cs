@@ -56,10 +56,13 @@ namespace Code
             foreach (var player in _players)
             {
                 var buffCount = 0;
-                
+
                 if (_defaultSettings.settings.allowDuplicateBuffs)
                 {
-                    for (var i = 0; i < Random.Range(0, _defaultSettings.settings.buffCountMax + 1); i++)
+                    for (var i = 0;
+                        i < Random.Range(_defaultSettings.settings.buffCountMin,
+                            _defaultSettings.settings.buffCountMax + 1);
+                        i++)
                     {
                         player.AddBuffs(_defaultSettings.buffs[Random.Range(0, _defaultSettings.buffs.Length)]);
                     }
