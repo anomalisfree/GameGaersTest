@@ -7,19 +7,19 @@ namespace Code
         private Data _defaultSettings;
         private PlayerController[] _players;
         private MainUI _mainUi;
-        
+
         public void Initialize(
             Data settings,
-            PlayerController[] players, 
+            PlayerController[] players,
             MainUI mainUi
-            )
+        )
         {
             _defaultSettings = settings;
             _players = players;
             _mainUi = mainUi;
-            
+
             SetDefaultParams();
-            
+
             _mainUi.playWithoutBuffsButton.onClick.AddListener(PlayWithoutBuffs);
             _mainUi.playWithBuffsButton.onClick.AddListener(PlayWithBuffs);
 
@@ -34,17 +34,17 @@ namespace Code
         {
             SetDefaultParams();
         }
-        
+
         private void PlayWithBuffs()
         {
             SetDefaultParams();
             AddBuffs();
         }
-        
+
         private void SetDefaultParams()
         {
             _defaultSettings = GameSettingsLoader.GetSettings();
-            
+
             foreach (var player in _players)
             {
                 player.SetPlayerStats(_defaultSettings.stats);
@@ -57,12 +57,22 @@ namespace Code
             {
                 var buffCount = 0;
                 
-                foreach (var buff in _defaultSettings.buffs)
+                if (_defaultSettings.settings.allowDuplicateBuffs)
                 {
-                    if (buffCount < _defaultSettings.settings.buffCountMax && Random.Range(0, 2) == 0)
+                    for (var i = 0; i < Random.Range(0, _defaultSettings.settings.buffCountMax + 1); i++)
                     {
-                        player.AddBuffs(buff);
-                        buffCount++;
+                        player.AddBuffs(_defaultSettings.buffs[Random.Range(0, _defaultSettings.buffs.Length)]);
+                    }
+                }
+                else
+                {
+                    foreach (var buff in _defaultSettings.buffs)
+                    {
+                        if (buffCount < _defaultSettings.settings.buffCountMax && Random.Range(0, 2) == 0)
+                        {
+                            player.AddBuffs(buff);
+                            buffCount++;
+                        }
                     }
                 }
             }
@@ -71,10 +81,10 @@ namespace Code
         private void PlayerAttack(float damage, int playerNum)
         {
             var damageSum = 0f;
-            
+
             for (var i = 0; i < _players.Length; i++)
             {
-                if (i -  playerNum != 0)
+                if (i - playerNum != 0)
                 {
                     _players[i].GetHit(damage, out var finishDamage);
                     damageSum += finishDamage;
@@ -83,6 +93,5 @@ namespace Code
 
             _players[playerNum].DamageDoneToEnemy(damageSum);
         }
-        
     }
 }
