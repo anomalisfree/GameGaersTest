@@ -27,12 +27,6 @@ namespace Code
 
         private HealthBar _healthBar;
 
-        private void Start()
-        {
-            playerPanelHierarchy.attackButton.onClick.AddListener(Attack);
-            _healthBar = Instantiate(playerPanelHierarchy.healthBarPrefab, playerPanelHierarchy.healthBarRoot)
-                .GetComponent<HealthBar>();
-        }
 
         private float GetParam(StatsId id)
         {
@@ -58,7 +52,7 @@ namespace Code
             {
                 case StatsId.LIFE_ID:
                     _life = value;
-                   break;
+                    break;
                 case StatsId.ARMOR_ID:
                     _armor = value;
                     break;
@@ -86,6 +80,13 @@ namespace Code
 
         public void SetPlayerStats(IEnumerable<Stat> stats)
         {
+            if (_healthBar == null)
+            {
+                playerPanelHierarchy.attackButton.onClick.AddListener(Attack);
+                _healthBar = Instantiate(playerPanelHierarchy.healthBarPrefab, playerPanelHierarchy.healthBarRoot)
+                    .GetComponent<HealthBar>();
+            }
+
             ClearStatsUI();
 
             foreach (var stat in stats)
@@ -93,7 +94,7 @@ namespace Code
                 var statUI = Instantiate(playerPanelHierarchy.statPrefab, playerPanelHierarchy.statsPanel)
                     .GetComponent<StatUI>();
                 statUI.Initialize(stat);
-                
+
                 SetParam((StatsId) stat.id, stat.value);
                 _playerStats.Add(statUI);
             }
@@ -185,10 +186,11 @@ namespace Code
         private void SetHealthVisual(bool isStarting = false)
         {
             playerPanelHierarchy.character.SetInteger(Health, (int) _life);
-                    
-            if (_healthBar != null)
-                _healthBar.SetAmount(_life, _maxLife, isStarting);
 
+            if (isStarting)
+                _healthBar.Initialize(_life);
+            else
+                _healthBar.SetAmount(_life, _maxLife);
         }
     }
 }

@@ -12,38 +12,43 @@ namespace Code
 
         private float _currentLife;
 
+        public void Initialize(float life)
+        {
+            _currentLife = life;
+
+            gameObject.SetActive(true);
+            image.fillAmount = 1;
+        }
+
         public void SetPose(Vector3 pivot)
         {
             if (Camera.main != null)
                 GetComponent<RectTransform>().localPosition = Camera.main.WorldToScreenPoint(pivot);
         }
 
-        public void SetAmount(float life, float maxLife, bool isStarting)
+        public void SetAmount(float life, float maxLife)
         {
             if (life <= 0)
             {
                 gameObject.SetActive(false);
+                return;
             }
-            else
+
+            if (life > _currentLife)
             {
-                gameObject.SetActive(true);
-                image.fillAmount = life / maxLife;
-
-                if (!isStarting)
-                    if (life > _currentLife)
-                    {
-                        text.color = Color.green;
-                        text.text = $"+{(int) (life - _currentLife)}";
-                        CreateNewLabel();
-                    }
-                    else if (life < _currentLife)
-                    {
-                        text.color = Color.red;
-                        text.text = $"-{(int) (_currentLife - life)}";
-                        CreateNewLabel();
-                    }
+                text.color = Color.green;
+                text.text = $"+{(int) (life - _currentLife)}";
+                CreateNewLabel();
+            }
+            else if (life < _currentLife)
+            {
+                text.color = Color.red;
+                text.text = $"-{(int) (_currentLife - life)}";
+                CreateNewLabel();
             }
 
+            gameObject.SetActive(true);
+            image.fillAmount = life / maxLife;
             _currentLife = life;
         }
 

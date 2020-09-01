@@ -17,7 +17,7 @@ namespace Code
             _defaultSettings = settings;
             _players = players;
             _mainUi = mainUi;
-
+            
             SetDefaultParams();
             
             _mainUi.playWithoutBuffsButton.onClick.AddListener(PlayWithoutBuffs);
